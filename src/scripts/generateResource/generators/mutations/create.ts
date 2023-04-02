@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateCreateCode(resourceName: ResourceNameForms) {
   const { singularLowerCase, singularCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "apollo-couch/src/graphql/lib/recordMutation";
+  return `import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "apollo-couch";
 import { ${singularCapitalized}CreateInput, RecordsMutationResponse } from "../../../generated-types";
 
 const COLLECTION = "${pluralLowerCase}";

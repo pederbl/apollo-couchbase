@@ -69,7 +69,7 @@ type Mutation {
 
 type Query {
   ${pluralLowerCase}List(query: ${pluralCapitalized}ListInput): ${pluralCapitalized}ListResponse
-  ${pluralLowerCase}GetById(ids: [ID!]!): ${pluralCapitalized}GetByIdResponse
+  ${pluralLowerCase}GetByIds(ids: [ID!]!): ${pluralCapitalized}GetByIdResponse
 }
 `;
 }

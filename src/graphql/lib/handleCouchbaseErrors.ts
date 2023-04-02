@@ -8,7 +8,7 @@ import {
     TimeoutError, 
     ValueTooLargeError 
 } from "couchbase";
-import { ErrorResponse } from "src/graphql/generated-types";
+import { ErrorResponse } from "../generated-types";
 
 export function handleCouchbaseError(error: Error, id: string): ErrorResponse {
     if (!(error instanceof CouchbaseError)) {

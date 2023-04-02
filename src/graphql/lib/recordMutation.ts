@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { CouchbaseError } from "couchbase";
-import { ErrorResponse, RecordsMutationResponse } from "src/graphql/generated-types";
+import { ErrorResponse, RecordsMutationResponse } from "../generated-types";
 import { getCouchbaseClient } from "../../couchbase/client";
 import { handleCouchbaseError } from "./handleCouchbaseErrors";
 

@@ -1,13 +1,16 @@
+#!/usr/bin/env node
+
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { resolve } from "path";
 import { generateResourceNameForms, ResourceNameForms } from "./lib/generateResourceNameForms";
 import {
   generateCreateCode,
   generateDeleteCode,
   generatePatchCode,
   generateReplaceCode,
+  generateGetByIdsCode, 
+  generateListCode,
   generateSchemaCode
 } from "./generators";
 
@@ -22,8 +25,7 @@ if(!resourceName.endsWith("s")) {
 }
 
 const resourceNameForms: ResourceNameForms = generateResourceNameForms(resourceName);
-const currentDir = dirname(fileURLToPath(import.meta.url));
-const resourceDir = resolve(currentDir, `../../../src/graphql/resources/${resourceNameForms.pluralLowerCase}`);
+const resourceDir = resolve(process.cwd(), `src/graphql/resources/${resourceNameForms.pluralLowerCase}`);
 
 if (existsSync(resourceDir)) {
   throw new Error(`Resource directory already exists: ${resourceDir}`);
@@ -38,7 +40,9 @@ if (existsSync(resourceDir)) {
     await writeFile(`${resourceDir}/mutations/Create.ts`, generateCreateCode(resourceNameForms));
     await writeFile(`${resourceDir}/mutations/Delete.ts`, generateDeleteCode(resourceNameForms));
     await writeFile(`${resourceDir}/mutations/Patch.ts`, generatePatchCode(resourceNameForms));
-    await writeFile(`${resourceDir}/mutations/Replace.ts`, generateReplaceCode(resourceNameForms));
+    await writeFile(`${resourceDir}/mutations/Replace.ts`, generateReplaceCode(resourceNameForms));    
+    await writeFile(`${resourceDir}/queries/List.ts`, generateListCode(resourceNameForms));
+    await writeFile(`${resourceDir}/queries/GetByIds.ts`, generateGetByIdsCode(resourceNameForms));
     await writeFile(`${resourceDir}/schema.graphql`, generateSchemaCode(resourceNameForms));
 
     console.log(`Resource '${resourceNameForms.pluralCapitalized}' generated successfully.`);

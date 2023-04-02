@@ -5,3 +5,7 @@ export {
   generatePatchCode,
   generateReplaceCode,
 } from "./mutations";
+export {
+  generateGetByIdsCode, 
+  generateListCode
+} from "./queries";

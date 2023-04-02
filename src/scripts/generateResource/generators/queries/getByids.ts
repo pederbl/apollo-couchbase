@@ -1,25 +1,53 @@
 import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 
 export function generateGetByIdsCode(resourceName: ResourceNameForms) {
-  const { singularLowerCase, singularCapitalized, pluralLowerCase } = resourceName;
+  const { singularCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "apollo-couch/src/graphql/lib/recordMutation";
-import { ${singularCapitalized}CreateInput, RecordsMutationResponse } from "../../../generated-types";
+  return `import { handleCouchbaseError } from "apollo-couch";
+import { getCouchbaseClient } from "apollo-couch";
+import { ${singularCapitalized}, ErrorResponse } from "../../../generated-types";
 
-const COLLECTION = "${pluralLowerCase}";
-const MUTATION_OPERATION: MutationOperation = "insert";
-const COLLECTION_ID_PREFIX = "${singularLowerCase.slice(0, 3)}"
+type PromiseOutcome<T> = {
+    status: "fulfilled";
+    value: T;
+} | {
+    status: "rejected";
+    reason: ErrorResponse;
+};
 
-async function recordMutator(record: ${singularCapitalized}CreateInput): 
-Promise<RecordMutationResult> {
-  const id = generateId(COLLECTION_ID_PREFIX);
-  const recordWithId = { ...record, id }
-  return mutateRecord(recordWithId, COLLECTION, MUTATION_OPERATION);
+function reflect(promise: Promise<any>, id: string): Promise<PromiseOutcome<any>> {
+    return promise.then(
+        (value) => ({ status: "fulfilled", value }),
+        (reason) => {
+            if (!(reason instanceof Error)) {
+                reason = new Error(\`Non-error rejection: \${reason}\`);
+            }
+            return { status: "rejected", reason: handleCouchbaseError(reason, id) };
+        }
+    );
 }
 
-export default async function resolver(_: any, { records }: { records: ${singularCapitalized}CreateInput[] }): 
-Promise<RecordsMutationResponse> {
-  return mutateRecords<${singularCapitalized}CreateInput>(records, recordMutator);
+export async function resolver(ids: string[]) {
+    const { bucket } = await getCouchbaseClient();
+
+    const recordPromises = ids.map(id => reflect(bucket.get(id), id));
+    const recordResults: PromiseOutcome<any>[] = await Promise.all(recordPromises);
+
+    const success: ${singularCapitalized}[] = [];
+    const errors: ErrorResponse[] = [];
+
+    recordResults.forEach((result, index) => {
+        if (result.status === "fulfilled") {
+            success.push({ id: ids[index], content: result.value });
+        } else {
+            errors.push(result.reason);
+        }
+    });
+
+    return {
+        success,
+        errors,
+    };
 }
 `;
 }
