@@ -4,8 +4,8 @@ export {
   generateDeleteCode,
   generatePatchCode,
   generateReplaceCode,
-} from "./mutations";
+} from "./mutation";
 export {
   generateGetByIdsCode, 
   generateListCode
-} from "./queries";
+} from "./query";

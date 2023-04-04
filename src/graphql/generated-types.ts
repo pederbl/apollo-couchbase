@@ -16,14 +16,8 @@ export type Scalars = {
 export type ErrorResponse = {
   __typename?: 'ErrorResponse';
   code: Scalars['Int'];
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
   message: Scalars['String'];
-};
-
-export type RecordsMutationResponse = {
-  __typename?: 'RecordsMutationResponse';
-  error: Array<ErrorResponse>;
-  success: Array<Scalars['ID']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -101,7 +95,6 @@ export type ResolversTypes = ResolversObject<{
   ErrorResponse: ResolverTypeWrapper<ErrorResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  RecordsMutationResponse: ResolverTypeWrapper<RecordsMutationResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
 }>;
 
@@ -111,25 +104,17 @@ export type ResolversParentTypes = ResolversObject<{
   ErrorResponse: ErrorResponse;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
-  RecordsMutationResponse: RecordsMutationResponse;
   String: Scalars['String'];
 }>;
 
 export type ErrorResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorResponse'] = ResolversParentTypes['ErrorResponse']> = ResolversObject<{
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type RecordsMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecordsMutationResponse'] = ResolversParentTypes['RecordsMutationResponse']> = ResolversObject<{
-  error?: Resolver<Array<ResolversTypes['ErrorResponse']>, ParentType, ContextType>;
-  success?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   ErrorResponse?: ErrorResponseResolvers<ContextType>;
-  RecordsMutationResponse?: RecordsMutationResponseResolvers<ContextType>;
 }>;
 

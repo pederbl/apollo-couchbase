@@ -1,10 +1,5 @@
 type ErrorResponse {
-  id: ID!
+  id: ID
   code: Int!
   message: String!
-}
-
-type RecordsMutationResponse {
-  success: [ID!]!
-  error: [ErrorResponse!]! 
 }

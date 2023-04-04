@@ -5,14 +5,14 @@ import { generateTypeDefs } from "./graphql/type-defs";
 import { generateResolvers } from "./graphql/resolvers";
 import { Resolvers } from "./graphql/generated-types";
 
-export interface MyContext {};
-
 dotenv.config();
+
+export interface MyContext {};
 
 export async function startApolloCouchServer(port?: number, customTypeDefs?: string, customResolvers?: Resolvers) {
 
   const typeDefs = await generateTypeDefs(customTypeDefs);
-  const resolvers = await generateResolvers(customResolvers);
+  const resolvers = await generateResolvers(); 
 
   const server = new ApolloServer<MyContext>({ typeDefs, resolvers });
 

@@ -34,15 +34,15 @@ if (existsSync(resourceDir)) {
 (async () => {
   try {
     await mkdir(resourceDir, { recursive: true });
-    await mkdir(`${resourceDir}/mutations`);
-    await mkdir(`${resourceDir}/queries`);
+    await mkdir(`${resourceDir}/mutation`);
+    await mkdir(`${resourceDir}/query`);
 
-    await writeFile(`${resourceDir}/mutations/Create.ts`, generateCreateCode(resourceNameForms));
-    await writeFile(`${resourceDir}/mutations/Delete.ts`, generateDeleteCode(resourceNameForms));
-    await writeFile(`${resourceDir}/mutations/Patch.ts`, generatePatchCode(resourceNameForms));
-    await writeFile(`${resourceDir}/mutations/Replace.ts`, generateReplaceCode(resourceNameForms));    
-    await writeFile(`${resourceDir}/queries/List.ts`, generateListCode(resourceNameForms));
-    await writeFile(`${resourceDir}/queries/GetByIds.ts`, generateGetByIdsCode(resourceNameForms));
+    await writeFile(`${resourceDir}/mutation/create.ts`, generateCreateCode(resourceNameForms));
+    await writeFile(`${resourceDir}/mutation/delete.ts`, generateDeleteCode(resourceNameForms));
+    await writeFile(`${resourceDir}/mutation/patch.ts`, generatePatchCode(resourceNameForms));
+    await writeFile(`${resourceDir}/mutation/replace.ts`, generateReplaceCode(resourceNameForms));    
+    await writeFile(`${resourceDir}/query/list.ts`, generateListCode(resourceNameForms));
+    await writeFile(`${resourceDir}/query/getByIds.ts`, generateGetByIdsCode(resourceNameForms));
     await writeFile(`${resourceDir}/schema.graphql`, generateSchemaCode(resourceNameForms));
 
     console.log(`Resource '${resourceNameForms.pluralCapitalized}' generated successfully.`);

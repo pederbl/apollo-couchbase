@@ -1,76 +1,53 @@
-import { readdirSync } from "fs";
-import { join } from "path";
-import { Resolvers } from "./generated-types";
+import glob from 'glob';
+import path from 'path';
 
-type ResolverType = "mutations" | "queries";
+type ResolverType = 'Query' | 'Mutation';
 
-function getResourcePath(resourceName: string, resolverType?: ResolverType, resolverName?: string): string {
-  const pathParts = ["src", "graphql", "resources", resourceName];
+type Resolvers = {
+  [key in ResolverType]: {
+    [key: string]: Function;
+  };
+};
 
-  if (resolverType) {
-    pathParts.push(resolverType);
-  }
-
-  if (resolverName) {
-    pathParts.push(resolverName);
-  }
-
-  return join(process.cwd(), ...pathParts);
+function isResolverType(value: string): value is ResolverType {
+  return value === 'Query' || value === 'Mutation';
 }
 
-function getResourceNames() {
-  return readdirSync(join(process.cwd(), "src", "graphql", "resources"));
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-async function importResolver(resolverType: ResolverType, resourceName: string, resolverName: string) {
-  const moduleImportPath = getResourcePath(resourceName, resolverType, resolverName);
-  const _module = await import(moduleImportPath);
-  const resolver = _module.default;
-  if (typeof resolver !== "function") {
-    throw new Error(`The default export is not a function: ${moduleImportPath}`);
-  }
-  return resolver;
-}
-
-function getResolverNames(resourceName: string, resolverType: ResolverType): string[] {
-  const resolverDirPath = getResourcePath(resourceName, resolverType);
-  return readdirSync(resolverDirPath).map(filename => filename.replace(/\.ts$/, ''));
-}
-
-async function getResolvers(resolverType: ResolverType, customResolvers?: Resolvers): Promise<Record<string, Function>> {
-  const resolvers: Record<string, Function> = {};
-
-  const resourceNames = getResourceNames();
-  const tasks = resourceNames.map(async (resourceName) => {
-    const resolverNames = getResolverNames(resourceName, resolverType);
-    const resolverTasks = resolverNames.map(async (resolverName) => {
-      const resolver = await importResolver(resolverType, resourceName, resolverName);
-      const resolverFullName = `${resourceName}${resolverName}`;
-      resolvers[resolverFullName] = resolver;
-    });
-    await Promise.all(resolverTasks);
-  });
-  await Promise.all(tasks);
-
-  if (customResolvers) {
-    Object.assign(resolvers, customResolvers);
-  }
-
-  return resolvers;
-}
-
-export async function generateResolvers(customResolvers?: Resolvers): Promise<Resolvers> {
-  const [mutationResolvers, queryResolvers] = await Promise.all([
-    getResolvers("mutations", customResolvers?.Mutation),
-    getResolvers("queries", customResolvers?.Query),
-  ]);
-
-  const resolvers: Resolvers = {
-    Mutation: mutationResolvers,
-    Query: queryResolvers,
+export async function generateResolvers(): Promise<Resolvers> {
+  const _resolvers: Resolvers = {
+    Query: {},
+    Mutation: {}
   };
 
-  return resolvers;
-}
+  const resourcesPath = path.join(process.cwd(), 'src/graphql/resources');
+  const resolverFilepaths = glob.sync(`${resourcesPath}/**/{query,mutation}/*.ts`);
 
+  const tasks = resolverFilepaths.map(async (resolverFilepath) => {
+      const resolverModule = await import(resolverFilepath);
+      const resolver = resolverModule.resolver;
+  
+      const [resourceName, resolverTypeRaw, operationNameRaw] = resolverFilepath.split('/').slice(-3);
+      const resolverType = capitalize(resolverTypeRaw);
+      const operationName = capitalize(operationNameRaw.replace(".ts", ""));
+      const resolverName = resourceName + operationName;
+  
+      if (!isResolverType(resolverType)) {
+        throw new Error(`Invalid resolver type: ${resolverType}`);
+      }
+  
+      if (typeof resolver !== 'function') {
+        throw new Error(`Expected a function for resolver, but got ${typeof resolver}`);
+      }
+  
+      _resolvers[resolverType][resolverName] = resolver;
+     }
+  );
+  await Promise.all(tasks);
+
+  return _resolvers;
+}
 
