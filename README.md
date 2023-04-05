@@ -10,7 +10,7 @@ framework is to make it simple to build super scalable and reliable APIs quickly
 * Node.js
 * npm or similar
 
-### Create Your Apollo On The Couch Server Project
+### Create Your `Apollo On The Couch` Server Project
 
 #### Create a Typescript project with the appropriate dependencies.
 ```bash
@@ -93,7 +93,6 @@ export default config;
 {  
   ...
   "type": "module",
-  ...
   "scripts": {
     ...
     "dev": "nodemon -r dotenv/config src/index.ts",
@@ -105,13 +104,6 @@ export default config;
 
 #### Configure the Couchbase Environment Variables in the .env file
 
-COUCHBASE_USER: The username for the Couchbase server.  
-COUCHBASE_PASSWORD: The password for the Couchbase server.  
-COUCHBASE_ENDPOINT: (Optional) The Couchbase server endpoint. If not provided, it defaults to localhost.  
-COUCHBASE_BUCKET: The Couchbase bucket you want to use.  
-COUCHBASE_SCOPE: (Optional) The Couchbase scope you want to use in the selected bucket. If not provided, it defaults to _default.  
-IS_CLOUD_INSTANCE: (Optional) Set this to 'true' if you are connecting to a cloud instance of Couchbase. If not provided, it defaults to 'false'.  
-
 ```bash
 COUCHBASE_USER=username
 COUCHBASE_PASSWORD=password
@@ -121,7 +113,14 @@ COUCHBASE_SCOPE=_default
 IS_CLOUD_INSTANCE=true
 ```
 
-Remember to add .env file to your .gitignore file to avoid accidentally committing sensitive information.
+COUCHBASE_USER: The username for the Couchbase server.  
+COUCHBASE_PASSWORD: The password for the Couchbase server.  
+COUCHBASE_ENDPOINT: (Optional) The Couchbase server endpoint. If not provided, it defaults to localhost.  
+COUCHBASE_BUCKET: The Couchbase bucket you want to use.  
+COUCHBASE_SCOPE: (Optional) The Couchbase scope you want to use in the selected bucket. If not provided, it defaults to _default.  
+IS_CLOUD_INSTANCE: (Optional) Set this to 'true' if you are connecting to a cloud instance of Couchbase. If not provided, it defaults to 'false'.  
+
+Remember to add the `.env` file to your `.gitignore` file to avoid accidentally committing sensitive information.
 
 ### Generate an ```apollo-couch``` resource 
 In `apollo-couch`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
