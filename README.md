@@ -1,6 +1,6 @@
 # Apollo On The Couch 
 
-A framework for building GraphQL APIs using Apollo backed by Couchbase. The main purpose of this 
+A framework for building GraphQL APIs with the Apollo GraphQL server backed by Couchbase. The main purpose of this 
 framework is to make it simple to build super scalable and reliable APIs quickly and cost-effectively. 
 
 ## Getting Started
