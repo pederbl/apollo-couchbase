@@ -35,6 +35,36 @@ import { startApolloCouchServer } from "apollo-couch";
 startApolloCouchServer(4000);
 ```
 
+#### Update the tsconfig.json file
+```json
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": "."
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couch/src/data", "apollo-couch/src/graphql/lib", "apollo-couch/src/couchbase"],
+  "exclude": ["node_modules"]
+}
+```
+
+
 #### Update the codegen.ts file
 ```typescript
 import type { CodegenConfig } from '@graphql-codegen/cli';
