@@ -92,7 +92,7 @@ IS_CLOUD_INSTANCE=true
 
 Remember to add .env file to your .gitignore file to avoid accidentally committing sensitive information.
 
-#### Generate an ```apollo-couch``` resource 
+### Generate an ```apollo-couch``` resource 
 The apollo-couch package includes a script called generate-resource to help you generate resources in your project. To use this script, follow these steps:
 
 Add a script entry for generate-resource in your project's package.json:
@@ -109,8 +109,12 @@ Create a collection in Couchbase called `<resource-name-in-plural>`. Create that
 Run the generate-graphql-types script:
 ```bash
 npm run generate-graphql-types
-````
+```
 
+### Start the server
+```bash
+npm run dev
+```
 
 ## License
 This project is licensed under the ISC License. See the LICENSE file for details.
