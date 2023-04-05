@@ -74,12 +74,12 @@ export default config;
 
 #### Configure the Couchbase Environment Variables in the .env file
 
-COUCHBASE_USER: The username for the Couchbase server.
-COUCHBASE_PASSWORD: The password for the Couchbase server.
-COUCHBASE_ENDPOINT: (Optional) The Couchbase server endpoint. If not provided, it defaults to localhost.
-COUCHBASE_BUCKET: The Couchbase bucket you want to use. 
-COUCHBASE_SCOPE: (Optional) The Couchbase scope you want to use in the selected bucket. If not provided, it defaults to _default.
-IS_CLOUD_INSTANCE: (Optional) Set this to 'true' if you are connecting to a cloud instance of Couchbase. If not provided, it defaults to 'false'.
+COUCHBASE_USER: The username for the Couchbase server.  
+COUCHBASE_PASSWORD: The password for the Couchbase server.  
+COUCHBASE_ENDPOINT: (Optional) The Couchbase server endpoint. If not provided, it defaults to localhost.  
+COUCHBASE_BUCKET: The Couchbase bucket you want to use.  
+COUCHBASE_SCOPE: (Optional) The Couchbase scope you want to use in the selected bucket. If not provided, it defaults to _default.  
+IS_CLOUD_INSTANCE: (Optional) Set this to 'true' if you are connecting to a cloud instance of Couchbase. If not provided, it defaults to 'false'.  
 
 ```bash
 COUCHBASE_USER=username
