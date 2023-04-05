@@ -4,7 +4,7 @@ A framework for building an Apollo GraphQL API backed by Couchbase.
 
 ## Getting Started
 
-### prerequisites 
+### Prerequisites 
 * A Couchbase Capella account or your own Couchbase server. 
 * Node.js
 * npm or similar
@@ -35,7 +35,7 @@ startApolloCouchServer(4000);
 ```
 
 #### Update the codegen.ts file
-````typescript
+```typescript
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
