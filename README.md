@@ -10,7 +10,7 @@ framework is to make it simple to build super scalable and reliable APIs quickly
 * Node.js
 * npm or similar
 
-### Create Your ```apollo-couch``` Server Project
+### Create Your ```Apollo On The Couch``` Server Project
 
 #### Create a Typescript project with the appropriate dependencies.
 ```bash
