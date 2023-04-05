@@ -10,7 +10,7 @@ framework is to make it simple to build super scalable and reliable APIs quickly
 * Node.js
 * npm or similar
 
-### Create Your ```Apollo On The Couch``` Server Project
+### Create Your Apollo On The Couch Server Project
 
 #### Create a Typescript project with the appropriate dependencies.
 ```bash
@@ -94,10 +94,13 @@ IS_CLOUD_INSTANCE=true
 Remember to add .env file to your .gitignore file to avoid accidentally committing sensitive information.
 
 ### Generate an ```apollo-couch``` resource 
-The apollo-couch package includes a script called generate-resource to help you generate resources in your project. To use this script, follow these steps:
+In `apollo-couch`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
 
-Add a script entry for generate-resource in your project's package.json:
+You can use a scaffolding script, `generate-resource`, to generate a new resource. This scrupt will generate resources with scaffold resolvers and schema files that you can edit to fit your purposes.  
 
+You are free to create your own resources that can contain any type of API resolvers and schema. 
+
+To create a reqource using the scaffolding script, follow these steps:
 
 #### Run the generate-resource script:
 ```bash
