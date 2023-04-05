@@ -104,7 +104,7 @@ npm run generate-resource <resource-name-in-plural>
 ````
 
 Edit the ./src/graphql/resources/`<resource-name-in-plural>`/schema.graphql file. Fill in the properties you wan to expose on the resource. 
-Create a collection in Couchbase called <resource-name-in-plural>. Create that an index is created on that collection. 
+Create a collection in Couchbase called `<resource-name-in-plural>`. Create that an index is created on that collection. 
 
 Run the generate-graphql-types script:
 ```bash
