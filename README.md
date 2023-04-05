@@ -98,15 +98,43 @@ The apollo-couch package includes a script called generate-resource to help you 
 Add a script entry for generate-resource in your project's package.json:
 
 
-Run the generate-resource script:
+#### Run the generate-resource script:
 ```bash
 npm run generate-resource <resource-name-in-plural>
-````
+```
 
-Edit the ./src/graphql/resources/`<resource-name-in-plural>`/schema.graphql file. Fill in the properties you wan to expose on the resource. 
-Create a collection in Couchbase called `<resource-name-in-plural>`. Create that an index is created on that collection. 
+#### Edit the ./src/graphql/resources/`<resource-name-in-plural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
 
-Run the generate-graphql-types script:
+E.g.
+```graphql
+type AccountContent {
+    name: String!
+    phone: String
+}
+
+input AccountContentInput {
+  name: String!
+  phone: String
+}
+
+input AccountContentPatchInput {
+  name: String
+  phone: String
+}
+
+input AccountsListFiltersInput {
+  name: String
+}
+```
+Notice that there is no exclamation mark in the `AccountContentPatchInput` input.
+
+#### Create a collection in Couchbase called `<resource-name-in-plural>` and create an index to enable N1QL queries which is used by the list resolver. 
+
+```sql
+CREATE PRIMARY INDEX ON main._default.<resource-name-in-plural>;
+```
+
+#### Run the generate-graphql-types script:
 ```bash
 npm run generate-graphql-types
 ```
