@@ -96,9 +96,9 @@ Remember to add .env file to your .gitignore file to avoid accidentally committi
 ### Generate an ```apollo-couch``` resource 
 In `apollo-couch`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
 
-You can use a scaffolding script, `generate-resource`, to generate a new resource. This scrupt will generate resources with scaffold resolvers and schema files that you can edit to fit your purposes.  
+You can use a scaffolding script, `generate-resource`, to generate a new resource. This script will generate resources with scaffold resolvers and schema files that you can edit to fit your purposes.  
 
-You are free to create your own resources that can contain any type of API resolvers and schema. 
+You also have the flexibility to create your own resources that can contain any type of API resolvers and schema. 
 
 To create a reqource using the scaffolding script, follow these steps:
 
