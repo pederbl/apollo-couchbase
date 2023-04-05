@@ -130,7 +130,7 @@ input AccountsListFiltersInput {
   name: String
 }
 ```
-Notice that there is no exclamation mark in the `AccountContentPatchInput` input.
+Notice that there is no exclamation mark in the `AccountContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
 
 #### Create a collection in Couchbase called `<resource-name-in-plural>` and create an index to enable N1QL queries which is used by the list resolver. 
 
