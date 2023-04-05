@@ -1,4 +1,4 @@
-# Apollo Couch
+# Apollo On The Couch 
 
 A framework for building an Apollo GraphQL API backed by Couchbase.
 
