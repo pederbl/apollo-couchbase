@@ -1,10 +1,10 @@
 import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 
 export function generateDeleteCode(resourceName: ResourceNameForms) {
-  const { singularCapitalized, pluralLowerCase } = resourceName;
+  const { singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
   return `import { getCollection, handleCouchbaseError } from "apollo-couch";
-import { ${singularCapitalized}sDeleteResponse } from "../../../generated-types";
+import { ${pluralCapitalized}DeleteResponse } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
 const collection = await getCollection(COLLECTION_NAME);
@@ -14,9 +14,9 @@ async function delete${singularCapitalized}(id: string): Promise<string> {
   return id;
 }
 
-export async function resolver(_: any, { ids }: { ids: string[] }): Promise<${singularCapitalized}sDeleteResponse> {
+export async function resolver(_: any, { ids }: { ids: string[] }): Promise<${pluralCapitalized}DeleteResponse> {
   const results = await Promise.allSettled(ids.map(delete${singularCapitalized}));
-  const response = results.reduce<${singularCapitalized}sDeleteResponse>((acc, result) => {
+  const response = results.reduce<${pluralCapitalized}DeleteResponse>((acc, result) => {
       if (result.status === "fulfilled") {
         acc.deletedIds.push(result.value);
       } else {

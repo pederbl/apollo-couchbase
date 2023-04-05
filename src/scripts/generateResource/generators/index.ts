@@ -1,11 +1,11 @@
-export { generateSchemaCode } from "./schema.graphql";
+export { generateSchemaCode } from "./schema.graphql.js";
 export {
   generateCreateCode,
   generateDeleteCode,
   generatePatchCode,
   generateReplaceCode,
-} from "./mutation";
+} from "./mutation/index.js";
 export {
   generateGetByIdsCode, 
   generateListCode
-} from "./query";
+} from "./query/index.js";

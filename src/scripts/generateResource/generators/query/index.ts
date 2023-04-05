@@ -1,2 +1,2 @@
-export { generateGetByIdsCode } from "./getByIds";
-export { generateListCode } from "./list";
+export { generateGetByIdsCode } from "./getByIds.js";
+export { generateListCode } from "./list.js";

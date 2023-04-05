@@ -1,11 +1,11 @@
-type ResourceNameForms = {
+export type ResourceNameForms = {
   singularLowerCase: string;
   singularCapitalized: string;
   pluralLowerCase: string;
   pluralCapitalized: string;
 };
 
-function generateResourceNameForms(resourceName: string): ResourceNameForms {
+export function generateResourceNameForms(resourceName: string): ResourceNameForms {
   const singularLowerCase = resourceName.slice(0, -1);
   const singularCapitalized = singularLowerCase.charAt(0).toUpperCase() + singularLowerCase.slice(1);
   const pluralLowerCase = resourceName.toLowerCase();
@@ -13,5 +13,3 @@ function generateResourceNameForms(resourceName: string): ResourceNameForms {
 
   return { singularLowerCase, singularCapitalized, pluralLowerCase, pluralCapitalized };
 }
-
-export { ResourceNameForms, generateResourceNameForms };

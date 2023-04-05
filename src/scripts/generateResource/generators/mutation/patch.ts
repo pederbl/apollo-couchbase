@@ -1,11 +1,11 @@
 import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 
 export function generatePatchCode(resourceName: ResourceNameForms) {
-  const { singularLowerCase, singularCapitalized, pluralLowerCase } = resourceName;
+  const { singularLowerCase, singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
   return `import { getCollection, handleCouchbaseError } from "apollo-couch";
 import { MutateInSpec } from "couchbase";
-import { ${singularCapitalized}, ${singularCapitalized}PatchInput, ${singularCapitalized}sResponse } from "../../../generated-types";
+import { ${singularCapitalized}, ${singularCapitalized}PatchInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
 const collection = await getCollection(COLLECTION_NAME);
@@ -19,9 +19,9 @@ async function patch${singularCapitalized}(record: ${singularCapitalized}PatchIn
   return { id: record.id, content: ${singularLowerCase}.content };
 }
 
-export async function resolver(_: any, { records }: { records: ${singularCapitalized}PatchInput[] }): Promise<${singularCapitalized}sResponse> {
+export async function resolver(_: any, { records }: { records: ${singularCapitalized}PatchInput[] }): Promise<${pluralCapitalized}Response> {
   const results = await Promise.allSettled(records.map(patch${singularCapitalized}));
-  const response = results.reduce<${singularCapitalized}sResponse>((acc, result) => {
+  const response = results.reduce<${pluralCapitalized}Response>((acc, result) => {
       if (result.status === "fulfilled") {
         acc.records.push(result.value);
       } else {

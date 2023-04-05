@@ -40,7 +40,7 @@ export async function generateResolvers(): Promise<Resolvers> {
       }
   
       if (typeof resolver !== 'function') {
-        throw new Error(`Expected a function for resolver, but got ${typeof resolver}`);
+        throw new Error(`Expected a function for resolver, but got ${typeof resolver}. ResourceName: ${resourceName}, OperationName: ${operationName}`);
       }
   
       _resolvers[resolverType][resolverName] = resolver;

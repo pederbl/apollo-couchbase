@@ -3,7 +3,6 @@
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { resolve } from "path";
-import { generateResourceNameForms, ResourceNameForms } from "./lib/generateResourceNameForms";
 import {
   generateCreateCode,
   generateDeleteCode,
@@ -12,7 +11,9 @@ import {
   generateGetByIdsCode, 
   generateListCode,
   generateSchemaCode
-} from "./generators";
+} from "./generators/index.js";
+import { generateResourceNameForms, ResourceNameForms } from "./lib/generateResourceNameForms.js";
+
 
 const [_, __, resourceName] = process.argv;
 

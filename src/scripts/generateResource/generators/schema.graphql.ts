@@ -4,27 +4,25 @@ export function generateSchemaCode(resourceName: ResourceNameForms): string {
   const { singularLowerCase, singularCapitalized, pluralLowerCase, pluralCapitalized } = resourceName;
 
   return `type ${singularCapitalized}Content {
-  name: String!
-  phone: String
+    _REPLACE_WITH_YOUR_FIELDS: String
 }
+
+input ${singularCapitalized}ContentInput {
+  _REPLACE_WITH_YOUR_FIELDS: String
+}
+
+input ${singularCapitalized}ContentPatchInput {
+  _REPLACE_WITH_YOUR_FIELDS: String
+}
+
+input ${pluralCapitalized}ListFiltersInput {
+  _REPLACE_WITH_YOUR_FILTERS: String
+}
+
 
 type ${singularCapitalized} {
   id: ID!
   content: ${singularCapitalized}Content!
-}
-
-input ${singularCapitalized}ContentInput {
-  name: String!
-  phone: String
-}
-
-input ${singularCapitalized}ContentPatchInput {
-  name: String
-  phone: String
-}
-
-input ${singularCapitalized}CreateInput {
-  content: ${singularCapitalized}ContentInput!
 }
 
 input ${singularCapitalized}ReplaceInput {
@@ -37,39 +35,36 @@ input ${singularCapitalized}PatchInput {
   content: ${singularCapitalized}ContentPatchInput!
 }
 
-input ${singularCapitalized}DeleteInput {
-  id: ID!
+type ${pluralCapitalized}Response {
+  records: [${singularCapitalized}]!
+  errors: [ErrorResponse]!
+}
+
+type ${pluralCapitalized}DeleteResponse {
+  deletedIds: [ID]!
+  errors: [ErrorResponse]!
 }
 
 type ${pluralCapitalized}ListResponse {
-  code: Int!
+  code: Int
   message: String!
   records: [${singularCapitalized}]
-}
-
-input ${pluralCapitalized}ListFiltersInput {
-  name: String
 }
 
 input ${pluralCapitalized}ListInput {
   filters: ${pluralCapitalized}ListFiltersInput
 }
 
-type ${pluralCapitalized}GetByIdResponse {
-  success: [${singularCapitalized}]
-  error: [ErrorResponse]
-}
-
 type Mutation {
-  ${pluralLowerCase}Create(records: [${singularCapitalized}CreateInput]!): RecordsMutationResponse
-  ${pluralLowerCase}Patch(records: [${singularCapitalized}PatchInput]!): RecordsMutationResponse
-  ${pluralLowerCase}Replace(records: [${singularCapitalized}ReplaceInput]!): RecordsMutationResponse
-  ${pluralLowerCase}Delete(records: [${singularCapitalized}DeleteInput]!): RecordsMutationResponse
+  ${pluralLowerCase}Create(contents: [${singularCapitalized}ContentInput]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Patch(records: [${singularCapitalized}PatchInput]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Replace(records: [${singularCapitalized}ReplaceInput]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Delete(ids: [ID]!): ${pluralCapitalized}DeleteResponse
 }
 
 type Query {
+  ${pluralLowerCase}GetByIds(ids: [ID!]!): ${pluralCapitalized}Response
   ${pluralLowerCase}List(query: ${pluralCapitalized}ListInput): ${pluralCapitalized}ListResponse
-  ${pluralLowerCase}GetByIds(ids: [ID!]!): ${pluralCapitalized}GetByIdResponse
 }
 `;
 }

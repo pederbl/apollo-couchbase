@@ -1,12 +1,12 @@
 import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 
 export function generateListCode(resourceName: ResourceNameForms) {
-  const { singularCapitalized, pluralLowerCase } = resourceName;
+  const { pluralCapitalized, pluralLowerCase } = resourceName;
 
   return `import { getCouchbaseClient } from "apollo-couch";
-import { ${singularCapitalized}ListInput, ${singularCapitalized}ListResponse } from "../../../generated-types";
+import { ${pluralCapitalized}ListInput, ${pluralCapitalized}ListResponse } from "../../../generated-types";
 
-export default async function resolver(_: any, { query }: { query: ${singularCapitalized}ListInput }) : Promise<${singularCapitalized}ListResponse> {
+export async function resolver(_: any, { query }: { query: ${pluralCapitalized}ListInput }) : Promise<${pluralCapitalized}ListResponse> {
     const { cluster } = await getCouchbaseClient();
     let queryString = "SELECT META().id, * FROM main.play.${pluralLowerCase}";
     const response = await cluster.query(queryString);
