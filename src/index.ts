@@ -1,5 +1,5 @@
-export { handleCouchbaseError } from "./graphql/lib/handleCouchbaseErrors";
-export { generateId } from "./graphql/lib/recordMutation"
+export { handleDbError } from "./graphql/lib/handleDbError";
+export { generateId } from "./couchbase/generateId"
 export { getCouchbaseClient, getCollection } from "./couchbase/client";
-export { startApolloCouchServer } from './startApolloCouchServer';
+export { startApolloCouchServer, createGraphqlHandler } from './startApolloCouchServer';
 export { ErrorResponse } from "./graphql/generated-types";

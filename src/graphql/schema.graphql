@@ -3,3 +3,8 @@ type ErrorResponse {
   code: Int!
   message: String!
 }
+
+type Status {
+  code: Int!
+  message: String!
+}

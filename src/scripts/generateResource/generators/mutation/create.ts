@@ -7,9 +7,9 @@ export function generateCreateCode(resourceName: ResourceNameForms) {
 import { ${singularCapitalized}, ${singularCapitalized}ContentInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
-const collection = await getCollection(COLLECTION_NAME);
 
 async function create${singularCapitalized}(content: ${singularCapitalized}ContentInput): Promise<${singularCapitalized}> {
+  const collection = await getCollection(COLLECTION_NAME); 
   const id = generateId(COLLECTION_NAME);
   await collection.insert(id, content);
   return { id, content }

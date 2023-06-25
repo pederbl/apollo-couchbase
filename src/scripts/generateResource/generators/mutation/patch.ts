@@ -8,9 +8,9 @@ import { MutateInSpec } from "couchbase";
 import { ${singularCapitalized}, ${singularCapitalized}PatchInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
-const collection = await getCollection(COLLECTION_NAME);
 
 async function patch${singularCapitalized}(record: ${singularCapitalized}PatchInput): Promise<${singularCapitalized}> {
+  const collection = await getCollection(COLLECTION_NAME);
   const specs = Object.entries(record.content).map(([field, value]) => {
     return MutateInSpec.upsert(field, value);
   });

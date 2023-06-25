@@ -129,14 +129,14 @@ You can use a scaffolding script, `generate-resource`, to generate a new resourc
 
 You also have the flexibility to create your own resources that can contain any type of API resolvers and schema. 
 
-To create a reqource using the scaffolding script, follow these steps:
+To create a resource using the scaffolding script, follow these steps:
 
 #### Run the generate-resource script:
 ```bash
-npm run generate-resource <resource-name-in-plural>
+npm run generate-resource <resourceNameInPlural>
 ```
 
-#### Edit the ./src/graphql/resources/`<resource-name-in-plural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
+#### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
 
 E.g.
 ```graphql
@@ -161,10 +161,10 @@ input AccountsListFiltersInput {
 ```
 Notice that there is no exclamation mark in the `AccountContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
 
-#### Create a collection in Couchbase called `<resource-name-in-plural>` and create an index to enable N1QL queries which is used by the list resolver. 
+#### Create a collection in Couchbase called `<resourceNameInPlural>` and create an index to enable N1QL queries which is used by the list resolver. 
 
 ```sql
-CREATE PRIMARY INDEX ON main._default.<resource-name-in-plural>;
+CREATE PRIMARY INDEX ON main._default.<resourceNameInPlural>;
 ```
 
 #### Run the generate-graphql-types script:

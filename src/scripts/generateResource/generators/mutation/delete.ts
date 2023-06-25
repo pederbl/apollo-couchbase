@@ -7,9 +7,9 @@ export function generateDeleteCode(resourceName: ResourceNameForms) {
 import { ${pluralCapitalized}DeleteResponse } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
-const collection = await getCollection(COLLECTION_NAME);
 
 async function delete${singularCapitalized}(id: string): Promise<string> {
+  const collection = await getCollection(COLLECTION_NAME);
   await collection.remove(id);
   return id;
 }

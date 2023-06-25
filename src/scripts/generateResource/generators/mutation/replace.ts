@@ -7,9 +7,9 @@ export function generateReplaceCode(resourceName: ResourceNameForms) {
 import { ${singularCapitalized}, ${singularCapitalized}ReplaceInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
-const collection = await getCollection(COLLECTION_NAME);
 
 async function replace${singularCapitalized}(record: ${singularCapitalized}ReplaceInput): Promise<${singularCapitalized}> {
+  const collection = await getCollection(COLLECTION_NAME);
   await collection.upsert(record.id, record.content);
   return record;
 }

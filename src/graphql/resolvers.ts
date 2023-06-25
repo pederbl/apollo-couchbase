@@ -9,45 +9,58 @@ type Resolvers = {
   };
 };
 
-function isResolverType(value: string): value is ResolverType {
-  return value === 'Query' || value === 'Mutation';
-}
+type ResolverMetadata = {
+  resolverType: ResolverType;
+  resolverName: string;
+  resolverFilepath: string;
+};
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export async function generateResolvers(): Promise<Resolvers> {
-  const _resolvers: Resolvers = {
-    Query: {},
-    Mutation: {}
-  };
-
-  const resourcesPath = path.join(process.cwd(), 'src/graphql/resources');
+  const resourcesPath = `${process.cwd()}/src/graphql/resources`;
   const resolverFilepaths = glob.sync(`${resourcesPath}/**/{query,mutation}/*.ts`);
 
-  const tasks = resolverFilepaths.map(async (resolverFilepath) => {
+  const resolverMetadataList: ResolverMetadata[] = resolverFilepaths.map((resolverFilepath) => {
+    const [resourceName, resolverTypeRaw, operationNameRaw] = resolverFilepath.split('/').slice(-3);
+    const resolverType = capitalize(resolverTypeRaw) as ResolverType;
+    const operationName = capitalize(operationNameRaw.replace('.ts', ''));
+    const resolverName = resourceName + operationName;
+
+    if (!(resolverType === 'Query' || resolverType === 'Mutation')) {
+      throw new Error(`Invalid resolver type: ${resolverType}`);
+    }
+
+    return { resolverType, resolverName, resolverFilepath };
+  });
+
+  resolverMetadataList.push({ 
+    resolverType: "Mutation", 
+    resolverName: "authLoginGoogle", 
+    resolverFilepath: path.join(process.cwd(), "node_modules", "apollo-couch", "dist", "graphql", "resources", "auth", "mutations", "loginGoogle.js") 
+  });
+  
+  const importedResolverFunctionsTasks = resolverMetadataList.map(async ({ resolverType, resolverName, resolverFilepath }) => {
       const resolverModule = await import(resolverFilepath);
       const resolver = resolverModule.resolver;
-  
-      const [resourceName, resolverTypeRaw, operationNameRaw] = resolverFilepath.split('/').slice(-3);
-      const resolverType = capitalize(resolverTypeRaw);
-      const operationName = capitalize(operationNameRaw.replace(".ts", ""));
-      const resolverName = resourceName + operationName;
-  
-      if (!isResolverType(resolverType)) {
-        throw new Error(`Invalid resolver type: ${resolverType}`);
-      }
-  
+
       if (typeof resolver !== 'function') {
-        throw new Error(`Expected a function for resolver, but got ${typeof resolver}. ResourceName: ${resourceName}, OperationName: ${operationName}`);
+        throw new Error(
+          `Expected a function for resolver, but got ${typeof resolver}. ResourceName: ${resolverName}, OperationName: ${resolverType}`,
+        );
       }
-  
-      _resolvers[resolverType][resolverName] = resolver;
-     }
-  );
-  await Promise.all(tasks);
 
-  return _resolvers;
+      return { resolverType, resolverName, resolver };
+    })
+
+  const importedResolverFunctions = await Promise.all(importedResolverFunctionsTasks); 
+
+  const graphQlResolversObject = importedResolverFunctions.reduce((accumulator, { resolverType, resolverName, resolver }) => {
+    accumulator[resolverType][resolverName] = resolver;
+    return accumulator;
+  }, { Query: {}, Mutation: {} } as Resolvers);
+
+  return graphQlResolversObject;
 }
-
