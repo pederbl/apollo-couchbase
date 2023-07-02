@@ -2,8 +2,8 @@ import { TokenPayload } from "google-auth-library";
 import { getCouchbaseClient } from "../../couchbase/client"; 
 import { generateId } from "../generateId";
 
-const COUCHBASE_ACCESS_BUCKET = process.env.COUCHBASE_ACCESS_BUCKET || process.env.COUCHBASE_BUCKET;
-const COUCHBASE_ACCESS_SCOPE = process.env.COUCHBASE_ACCESS_SCOPE || process.env.COUCHBASE_SCOPE;
+const COUCHBASE_ACCESS_BUCKET = process.env.COUCHBASE_ACCESS_BUCKET || process.env.COUCHBASE_DEFAULT_BUCKET;
+const COUCHBASE_ACCESS_SCOPE = process.env.COUCHBASE_ACCESS_SCOPE || process.env.COUCHBASE_DEFAULT_SCOPE;
 
 interface DbLoginProfiles {
     google?: TokenPayload
@@ -46,7 +46,7 @@ export async function findUserFromGoogleLogin(sub: string): Promise<DbUser> {
 }
 
 export async function createUserFromGoogleSignUp(payload: TokenPayload): Promise<DbUser> {
-    const { cluster, bucket } = await getCouchbaseClient();
+    const { accessScope } = await getCouchbaseClient();
 
     if (!payload.given_name) {
         throw new Error("No given_name property"); 
@@ -70,7 +70,7 @@ export async function createUserFromGoogleSignUp(payload: TokenPayload): Promise
         roles: []
     };
 
-    const collection = bucket.scope(COUCHBASE_ACCESS_SCOPE).collection('users');
+    const collection = accessScope.collection('users');
     const id = generateUserId(); 
     await collection.insert(`user::${payload.sub}`, content);
     const user: DbUser = { id, content }

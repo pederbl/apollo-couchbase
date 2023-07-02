@@ -28,10 +28,10 @@ export function createJwtToken<PayloadT = DefaultJwtPayload>(payload: PayloadT):
 }
 
 export function verifyJwtToken<PayloadT = DefaultJwtPayload>(token: string): PayloadT {
-  if (!process.env.JWT_SECRET) {
+  if (!process.env.TOKEN_ISSUER) {
     throw new Error("JWT_SECRET environment variable is empty.")
   }
-  return <PayloadT>jwt.verify(token, process.env.JWT_SECRET);
+  return <PayloadT>jwt.verify(token, process.env.TOKEN_ISSUER);
 }
 
 const googleOAuth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);

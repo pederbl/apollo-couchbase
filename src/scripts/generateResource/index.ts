@@ -1,8 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env node -r dotenv/config
 
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { resolve } from "path";
+import { getCouchbaseClient } from "../../couchbase/client.js"; 
 import {
   generateCreateCode,
   generateDeleteCode,
@@ -32,8 +33,23 @@ if (existsSync(resourceDir)) {
   throw new Error(`Resource directory already exists: ${resourceDir}`);
 }
 
+async function createCollection(collectionName: string): Promise<void> {
+  const { defaultScope } = await getCouchbaseClient();
+  const queryString = `CREATE COLLECTION ${collectionName} IF NOT EXISTS`;
+  const response = await defaultScope.query(queryString);
+}
+
+async function createPrimaryIndex(collectionName: string): Promise<void> {
+  const { defaultScope } = await getCouchbaseClient();
+  const queryString = `CREATE PRIMARY INDEX ON ${collectionName}`;
+  const response = await defaultScope.query(queryString);
+}
+
 (async () => {
   try {
+    await createCollection(resourceNameForms.pluralLowerCase);
+    await createPrimaryIndex(resourceNameForms.pluralLowerCase);
+
     await mkdir(resourceDir, { recursive: true });
     await mkdir(`${resourceDir}/mutation`);
     await mkdir(`${resourceDir}/query`);

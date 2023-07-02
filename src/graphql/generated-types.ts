@@ -47,6 +47,7 @@ export type MutationAuthSignUpGoogleArgs = {
 export type Status = {
   __typename?: 'Status';
   code: Scalars['Int'];
+  codeName: Scalars['String'];
   message: Scalars['String'];
 };
 
@@ -181,6 +182,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type StatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['Status'] = ResolversParentTypes['Status']> = ResolversObject<{
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  codeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

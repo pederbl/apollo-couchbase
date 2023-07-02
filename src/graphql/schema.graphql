@@ -6,5 +6,6 @@ type ErrorResponse {
 
 type Status {
   code: Int!
+  codeName: String!
   message: String!
 }

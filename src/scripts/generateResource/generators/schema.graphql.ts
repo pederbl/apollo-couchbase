@@ -19,7 +19,6 @@ input ${pluralCapitalized}ListFiltersInput {
   _REPLACE_WITH_YOUR_FILTERS: String
 }
 
-
 type ${singularCapitalized} {
   id: ID!
   content: ${singularCapitalized}Content!

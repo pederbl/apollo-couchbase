@@ -3,7 +3,7 @@ import * as couchbase from 'couchbase';
 const COUCHBASE_USER = process.env.COUCHBASE_USER;
 const COUCHBASE_PASSWORD = process.env.COUCHBASE_PASSWORD;
 const COUCHBASE_ENDPOINT = process.env.COUCHBASE_ENDPOINT || 'localhost';
-let IS_CLOUD_INSTANCE = process.env.IS_CLOUD_INSTANCE || 'false';
+let COUCHBASE_IS_CLOUD_INSTANCE = process.env.COUCHBASE_IS_CLOUD_INSTANCE || 'false';
 
 if (!COUCHBASE_USER) {
   throw new Error(
@@ -35,9 +35,8 @@ export async function createCouchbaseCluster() {
   }
 
   cached.conn = await couchbase.connect(
-    'couchbases://' +
-      COUCHBASE_ENDPOINT +
-      (IS_CLOUD_INSTANCE === 'true'
+    COUCHBASE_ENDPOINT +
+      (COUCHBASE_IS_CLOUD_INSTANCE === 'true'
         ? '?ssl=no_verify&console_log_level=5'
         : ''),
     {

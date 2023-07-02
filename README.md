@@ -1,4 +1,4 @@
-# Apollo On The Couch 
+# Apollo On The Couch
 
 A framework for building GraphQL APIs with the Apollo GraphQL server backed by Couchbase. The main purpose of this 
 framework is to make it simple to build super scalable and reliable APIs quickly and cost-effectively. 
@@ -19,7 +19,7 @@ cd my-apollo-couch-server
 npm init -y
 tsc --init
 npm install apollo-couch couchbase graphql
-npm install --save-dev @types/node @graphql-codegen/cli @graphql-codegen/typescript-resolvers eslint nodemon
+npm install --save-dev @types/node @graphql-codegen/cli @graphql-codegen/typescript-resolvers eslint nodemon typescript
 ```
 
 #### Create the required files
@@ -32,35 +32,35 @@ touch src/index.ts codegen.ts .env
 ```typescript
 import { startApolloCouchServer } from "apollo-couch";
 
-startApolloCouchServer(4000);
+startApolloCouchServer();
 ```
 
 #### Update the tsconfig.json file
 ```json
 {
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": false,
-    "jsx": "preserve",
-    "incremental": true,
-    "baseUrl": "."
+      "preserveConstEnums": true,
+      "strictNullChecks": true,
+      "sourceMap": true,
+      "allowJs": true,
+      "target": "es5",
+      "module": "es6",
+      "outDir": ".build",
+      "moduleResolution": "node",
+      "lib": ["es2015"],
+      "rootDir": "./",
+      "baseUrl": ".",
+      "paths": {
+          "*": ["*", "src/*"]
+      },
+      "allowSyntheticDefaultImports": true,
+      "skipLibCheck": true
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couch/src/data", "apollo-couch/src/graphql/lib", "apollo-couch/src/couchbase"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couch/src/data", "apollo-couch/src/graphql/lib", "apollo-couch/src/couchbase"]
 }
 ```
 
@@ -94,33 +94,45 @@ export default config;
   ...
   "type": "module",
   "scripts": {
-    ...
+    "init": "npm run generate-graphql-types",
     "dev": "nodemon -r dotenv/config src/index.ts",
     "generate-graphql-types": "graphql-codegen --config codegen.ts",
-    "generate-resource": "generate-resource"
-  }
+    "generate-resource": "generate-resource",
+    "postgenerate-resource": "npm run generate-graphql-types"
+  },
 }
 ````
 
 #### Configure the Couchbase Environment Variables in the .env file
 
+Remember to add the `.env` file to your `.gitignore` file to avoid accidentally committing sensitive information.
+
+##### Capella database
 ```bash
+PORT=4000
+LOCAL=true
+
 COUCHBASE_USER=username
 COUCHBASE_PASSWORD=password
-COUCHBASE_ENDPOINT=cb.yourendpoint.cloud.couchbase.com
-COUCHBASE_BUCKET=_default
-COUCHBASE_SCOPE=_default
-IS_CLOUD_INSTANCE=true
+COUCHBASE_ENDPOINT=couchbases://cb.yourendpoint.cloud.couchbase.com
+COUCHBASE_DEFAULT_BUCKET=_default
+COUCHBASE_DEFAULT_SCOPE=_default
+COUCHBASE_IS_CLOUD_INSTANCE=true
 ```
 
-COUCHBASE_USER: The username for the Couchbase server.  
-COUCHBASE_PASSWORD: The password for the Couchbase server.  
-COUCHBASE_ENDPOINT: (Optional) The Couchbase server endpoint. If not provided, it defaults to localhost.  
-COUCHBASE_BUCKET: The Couchbase bucket you want to use.  
-COUCHBASE_SCOPE: (Optional) The Couchbase scope you want to use in the selected bucket. If not provided, it defaults to _default.  
-IS_CLOUD_INSTANCE: (Optional) Set this to 'true' if you are connecting to a cloud instance of Couchbase. If not provided, it defaults to 'false'.  
+##### Localhost database
+```bash
+PORT=4000
+LOCAL=true
 
-Remember to add the `.env` file to your `.gitignore` file to avoid accidentally committing sensitive information.
+COUCHBASE_USER=username
+COUCHBASE_PASSWORD=password
+COUCHBASE_ENDPOINT=couchbase://localhost
+COUCHBASE_DEFAULT_BUCKET=_default
+COUCHBASE_DEFAULT_SCOPE=_default
+COUCHBASE_IS_CLOUD_INSTANCE=false
+```
+
 
 ### Generate an ```apollo-couch``` resource 
 In `apollo-couch`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
@@ -137,7 +149,6 @@ npm run generate-resource <resourceNameInPlural>
 ```
 
 #### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
-
 E.g.
 ```graphql
 type AccountContent {
@@ -160,12 +171,6 @@ input AccountsListFiltersInput {
 }
 ```
 Notice that there is no exclamation mark in the `AccountContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
-
-#### Create a collection in Couchbase called `<resourceNameInPlural>` and create an index to enable N1QL queries which is used by the list resolver. 
-
-```sql
-CREATE PRIMARY INDEX ON main._default.<resourceNameInPlural>;
-```
 
 #### Run the generate-graphql-types script:
 ```bash
