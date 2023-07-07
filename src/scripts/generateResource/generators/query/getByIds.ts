@@ -3,9 +3,8 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateGetByIdsCode(resourceName: ResourceNameForms) {
   const { singularCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { getCollection } from "apollo-couch";
+  return `import { getCollection, handleCouchbaseError } from "apollo-couchbase";
 import { ${singularCapitalized}, ErrorResponse } from "src/graphql/generated-types";
-import { handleCouchbaseError } from "apollo-couch";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
 

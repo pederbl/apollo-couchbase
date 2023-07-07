@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateListCode(resourceName: ResourceNameForms) {
   const { pluralCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { getCouchbaseClient } from "apollo-couch";
+  return `import { getCouchbaseClient } from "apollo-couchbase";
 import { ${pluralCapitalized}ListInput, ${pluralCapitalized}ListResponse } from "../../../generated-types";
 
 export async function resolver(_: any, { query }: { query: ${pluralCapitalized}ListInput }) : Promise<${pluralCapitalized}ListResponse> {

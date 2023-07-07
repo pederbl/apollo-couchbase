@@ -10,7 +10,7 @@ const COLLECTION_NAME = "${pluralLowerCase}";
 
 async function replace${singularCapitalized}(record: ${singularCapitalized}ReplaceInput): Promise<${singularCapitalized}> {
   const collection = await getCollection(COLLECTION_NAME);
-  await collection.upsert(record.id, record.content);
+  await collection.replace(record.id, record.content);
   return record;
 }
 

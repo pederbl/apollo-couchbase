@@ -6,19 +6,19 @@ framework is to make it simple to build super scalable and reliable APIs quickly
 ## Getting Started
 
 ### Prerequisites 
-* A Couchbase Capella account or your own Couchbase server. 
-* Node.js
-* npm or similar
+* [A Couchbase Capella account or your own Couchbase server.](https://www.couchbase.com/downloads) 
+* [Node.js](https://nodejs.org/en/download)
+* [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or similar
 
 ### Create Your `Apollo On The Couch` Server Project
 
 #### Create a Typescript project with the appropriate dependencies.
 ```bash
-mkdir my-apollo-couch-server
-cd my-apollo-couch-server
+mkdir my-apollo-couchbase-server
+cd my-apollo-couchbase-server
 npm init -y
 tsc --init
-npm install apollo-couch couchbase graphql
+npm install apollo-couchbase couchbase graphql
 npm install --save-dev @types/node @graphql-codegen/cli @graphql-codegen/typescript-resolvers eslint nodemon typescript
 ```
 
@@ -30,7 +30,7 @@ touch src/index.ts codegen.ts .env
 
 #### Open your editor and update the src/index.ts file
 ```typescript
-import { startApolloCouchServer } from "apollo-couch";
+import { startApolloCouchServer } from "apollo-couchbase";
 
 startApolloCouchServer();
 ```
@@ -60,7 +60,7 @@ startApolloCouchServer();
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couch/src/data", "apollo-couch/src/graphql/lib", "apollo-couch/src/couchbase"]
+  "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couchbase/src/data", "apollo-couchbase/src/graphql/lib", "apollo-couchbase/src/couchbase"]
 }
 ```
 
@@ -73,7 +73,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     "src/graphql/**/*.graphql", 
-    "node_modules/apollo-couch/src/graphql/**/*.graphql"
+    "node_modules/apollo-couchbase/src/graphql/**/*.graphql"
   ],
   generates: {
     "src/graphql/generated-types.ts": {
@@ -134,8 +134,8 @@ COUCHBASE_IS_CLOUD_INSTANCE=false
 ```
 
 
-### Generate an ```apollo-couch``` resource 
-In `apollo-couch`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
+### Generate an ```apollo-couchbase``` resource 
+In `apollo-couchbase`, the GraphQL schema and resolvers are structured in what's called `resources`. These resources will typically be very similar to REST resources, with CrUD operations.  
 
 You can use a scaffolding script, `generate-resource`, to generate a new resource. This script will generate resources with scaffold resolvers and schema files that you can edit to fit your purposes.  
 

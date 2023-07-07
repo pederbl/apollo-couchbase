@@ -49,7 +49,11 @@ async function createPrimaryIndex(collectionName: string): Promise<void> {
   try {
     await createCollection(resourceNameForms.pluralLowerCase);
     await createPrimaryIndex(resourceNameForms.pluralLowerCase);
+  } catch (error) {
+      console.error(`Error generating database resource: ${(error as Error).message}`);
+  }
 
+  try {
     await mkdir(resourceDir, { recursive: true });
     await mkdir(`${resourceDir}/mutation`);
     await mkdir(`${resourceDir}/query`);

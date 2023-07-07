@@ -1,6 +1,6 @@
 {
-  "name": "apollo-couch",
-  "version": "0.0.11",
+  "name": "apollo-couchbase",
+  "version": "0.0.16",
   "description": "A framework for building an Apollo GraphQL API backed by Couchbase.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pederbl/apollo-couch.git"
+    "url": "https://github.com/pederbl/apollo-couchbase.git"
   },
   "keywords": [
     "apollo",
@@ -23,9 +23,9 @@
   "author": "Peder Linder <peder@baaboom.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pederbl/apollo-couch/issues"
+    "url": "https://github.com/pederbl/apollo-couchbase/issues"
   },
-  "homepage": "https://github.com/pederbl/apollo-couch#readme",
+  "homepage": "https://github.com/pederbl/apollo-couchbase#readme",
   "files": [
     "dist",
     "src",

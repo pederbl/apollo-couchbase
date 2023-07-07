@@ -39,7 +39,7 @@ export async function generateResolvers(): Promise<Resolvers> {
   resolverMetadataList.push({ 
     resolverType: "Mutation", 
     resolverName: "authLoginGoogle", 
-    resolverFilepath: path.join(process.cwd(), "node_modules", "apollo-couch", "dist", "graphql", "resources", "auth", "mutations", "loginGoogle.js") 
+    resolverFilepath: path.join(process.cwd(), "node_modules", "apollo-couchbase", "dist", "graphql", "resources", "auth", "mutations", "loginGoogle.js") 
   });
   
   const importedResolverFunctionsTasks = resolverMetadataList.map(async ({ resolverType, resolverName, resolverFilepath }) => {

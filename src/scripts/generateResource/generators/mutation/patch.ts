@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generatePatchCode(resourceName: ResourceNameForms) {
   const { singularLowerCase, singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { getCollection, handleCouchbaseError } from "apollo-couch";
+  return `import { getCollection, handleCouchbaseError } from "apollo-couchbase";
 import { MutateInSpec } from "couchbase";
 import { ${singularCapitalized}, ${singularCapitalized}PatchInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
@@ -12,7 +12,7 @@ const COLLECTION_NAME = "${pluralLowerCase}";
 async function patch${singularCapitalized}(record: ${singularCapitalized}PatchInput): Promise<${singularCapitalized}> {
   const collection = await getCollection(COLLECTION_NAME);
   const specs = Object.entries(record.content).map(([field, value]) => {
-    return MutateInSpec.upsert(field, value);
+    return MutateInSpec.replace(field, value);
   });
   await collection.mutateIn(record.id, specs);
   const ${singularLowerCase} = await collection.get(record.id);

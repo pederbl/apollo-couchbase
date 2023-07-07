@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateCreateCode(resourceName: ResourceNameForms) {
   const { singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { generateId, getCollection, handleCouchbaseError } from "apollo-couch";
+  return `import { generateId, getCollection, handleCouchbaseError } from "apollo-couchbase";
 import { ${singularCapitalized}, ${singularCapitalized}ContentInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";

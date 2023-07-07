@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateDeleteCode(resourceName: ResourceNameForms) {
   const { singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { getCollection, handleCouchbaseError } from "apollo-couch";
+  return `import { getCollection, handleCouchbaseError } from "apollo-couchbase";
 import { ${pluralCapitalized}DeleteResponse } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";
