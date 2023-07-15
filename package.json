@@ -1,6 +1,6 @@
 {
   "name": "apollo-couchbase",
-  "version": "0.0.16",
+  "version": "0.0.23",
   "description": "A framework for building an Apollo GraphQL API backed by Couchbase.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,7 +54,8 @@
     "google-auth-library": "^8.7.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.0",
+    "ts-retry": "^4.2.1"
   },
   "bin": {
     "generate-resource": "./dist/scripts/generateResource/index.js"

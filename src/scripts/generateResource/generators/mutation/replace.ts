@@ -3,7 +3,7 @@ import { ResourceNameForms } from '../../lib/generateResourceNameForms';
 export function generateReplaceCode(resourceName: ResourceNameForms) {
   const { singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;
 
-  return `import { getCollection, handleCouchbaseError } from "apollo-couch";
+  return `import { getCollection, handleCouchbaseError } from "apollo-couchbase";
 import { ${singularCapitalized}, ${singularCapitalized}ReplaceInput, ${pluralCapitalized}Response } from "../../../generated-types";
 
 const COLLECTION_NAME = "${pluralLowerCase}";

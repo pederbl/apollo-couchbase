@@ -14,6 +14,8 @@ import {
   generateSchemaCode
 } from "./generators/index.js";
 import { generateResourceNameForms, ResourceNameForms } from "./lib/generateResourceNameForms.js";
+import { CollectionManager, CollectionQueryIndexManager } from "couchbase";
+import { retryAsync } from "ts-retry";
 
 
 const [_, __, resourceName] = process.argv;
@@ -33,24 +35,35 @@ if (existsSync(resourceDir)) {
   throw new Error(`Resource directory already exists: ${resourceDir}`);
 }
 
-async function createCollection(collectionName: string): Promise<void> {
-  const { defaultScope } = await getCouchbaseClient();
-  const queryString = `CREATE COLLECTION ${collectionName} IF NOT EXISTS`;
-  const response = await defaultScope.query(queryString);
+async function createCollection(collectionName: string) {
+  const { defaultBucket, defaultScope } = await getCouchbaseClient();
+  const collectionManager: CollectionManager = defaultBucket.collections(); 
+  await collectionManager.createCollection({ name: collectionName, scopeName: defaultScope.name });
+  console.log("Collection created:", collectionName);
 }
-
-async function createPrimaryIndex(collectionName: string): Promise<void> {
+async function createPrimaryIndex(collectionName: string) {
   const { defaultScope } = await getCouchbaseClient();
-  const queryString = `CREATE PRIMARY INDEX ON ${collectionName}`;
-  const response = await defaultScope.query(queryString);
+  const collection = defaultScope.collection(collectionName); 
+  const indexManager: CollectionQueryIndexManager = collection.queryIndexes();
+  await retryAsync(
+      async () => {
+          indexManager.createPrimaryIndex(); 
+      },
+      { delay: 100, maxTry: 20 }
+  );
+  console.log("Primary index created.");
 }
 
 (async () => {
   try {
     await createCollection(resourceNameForms.pluralLowerCase);
+  } catch (error) {
+      console.error(`Error generating collection: ${(error as Error).message}`);
+  }
+  try {
     await createPrimaryIndex(resourceNameForms.pluralLowerCase);
   } catch (error) {
-      console.error(`Error generating database resource: ${(error as Error).message}`);
+      console.error(`Error generating primary index: ${(error as Error).message}`);
   }
 
   try {

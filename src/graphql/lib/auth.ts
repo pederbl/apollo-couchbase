@@ -51,3 +51,49 @@ export async function verifyGoogleJwtToken(token: string): Promise<TokenPayload>
   }
 }
 
+/*
+// From the curity setup, ask morre. Should probably be moved to env
+const ISSUER = 'https://dlindau.ngrok.io/~';
+const JWKS_URI = ISSUER + '/jwks';
+
+// import jwksClient from 'jwks-rsa'
+// import jwt from 'jsonwebtoken'
+const jwksClient = require('jwks-rsa');
+const jwks = jwksClient({ jwksUri: JWKS_URI });
+
+// field for caching the key
+let signingKey = undefined;
+const getVerifiedPayload = (token) => {
+  // Some options for the verification. Expiration and signature is on by default
+  let options = { issuer: ISSUER };
+
+  const getKey = (jwtHeader, callback) => {
+    if (signingKey) {
+      console.info('Using cached key');
+      callback(null, signingKey);
+      return;
+    }
+
+    jwks.getSigningKey(jwtHeader.kid, (err, key) => {
+    console.info('Fetching key with id: ' + jwtHeader.kid);
+    if (err) {
+        console.error('Error fetching key: ' + err)
+        callback(err, null);
+    }
+    signingKey = key.publicKey || key.rsaPublicKey;
+    callback(null, signingKey);
+    });
+  };
+
+  const verifyToken = (token) => {
+  return new Promise((resolve, reject) => {
+  jwt.verify(token, getKey, options, (err, decoded) => err ? reject(err) : resolve(decoded));
+  });
+  }
+  return new Promise((resolve, reject) => {
+  verifyToken(token)
+  .then((res) => resolve(res))
+  .catch((err) => reject(err));
+  });
+};
+*/
