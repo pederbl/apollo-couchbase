@@ -1,7 +1,15 @@
 # Apollo On The Couch
+A framework for building GraphQL APIs with the Apollo GraphQL server backed by Couchbase. 
 
-A framework for building GraphQL APIs with the Apollo GraphQL server backed by Couchbase. The main purpose of this 
-framework is to make it simple to build super scalable and reliable APIs quickly and cost-effectively. 
+The main inspiration for this framework is Ruby On Rails which was a game-changer when it came. But, Ruby On Rails has five huge sub-optimalities that  
+Apollo On The Couch aims to fix: 
+1. Scalability: It didn't scale seamlessly from start up to millions of operations per second. 
+2. Reliability: It required lots of infrastructure work to become enterprise-grade reliable.
+3. Capability: It didn't support full-text search and analytics out-of-the-box. 
+4. Cost-effectiveness: It required a lot of infrastructure work to be able to run cost-effectively. 
+5. REST vs GraphQL: It's default API was REST which is sub-optimal in so many ways compared to GraphQL. 
+
+With Apollo On The Couch you get all of the benefits with the Ruby On Rails approach and all of the above mentioned sub-optimalities fixed out-of-the-box with amazing developer and devops experience all the way from startup to millions of operations per second.
 
 ## Getting Started
 
@@ -38,32 +46,32 @@ npm run generate-resource <resourceNameInPlural>
 
 E.g
 ```bash
-npm run generate-resource customers
+npm run generate-resource books
 ```
 
 #### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
 E.g.
 ```graphql
-type CustomerContent {
+type BookContent {
     name: String!
-    phone: String
+    ISBN: Int
 }
 
 input CustomerContentInput {
   name: String!
-  phone: String
+  ISBN: Int
 }
 
 input CustomerContentPatchInput {
   name: String
-  phone: String
+  ISBN: Int
 }
 
 input CustomersListFiltersInput {
   name: String
 }
 ```
-Notice that there is no exclamation mark in the `CustomerContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
+Notice that there is no exclamation mark in the `BookContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
 
 This script with create a collection in Couchbase if it didn't already exist and a primary index on that collection. 
 

@@ -1,6 +1,6 @@
 {
   "name": "apollo-couchbase",
-  "version": "0.0.24",
+  "version": "0.0.31",
   "description": "A framework for building an Apollo GraphQL API backed by Couchbase.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
