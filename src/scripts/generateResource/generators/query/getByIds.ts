@@ -1,4 +1,4 @@
-import { ResourceNameForms } from '../../lib/generateResourceNameForms';
+import { ResourceNameForms } from '../../lib/generateResourceNameForms.js';
 
 export function generateGetByIdsCode(resourceName: ResourceNameForms) {
   const { singularCapitalized, pluralLowerCase } = resourceName;

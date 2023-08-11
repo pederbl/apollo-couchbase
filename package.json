@@ -4,7 +4,6 @@
   "description": "A framework for building an Apollo GraphQL API backed by Couchbase.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "generate-graphql-types": "graphql-codegen --config codegen.ts"
@@ -46,6 +45,7 @@
   "dependencies": {
     "@apollo/server": "^4.5.0",
     "@as-integrations/aws-lambda": "^2.0.1",
+    "@curity/jwt-validation": "^1.2.0",
     "couchbase": "^4.2.2",
     "dotenv": "^16.0.3",
     "eslint": "8.36.0",
@@ -55,6 +55,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.0.1",
     "ts-retry": "^4.2.1"
   },
   "bin": {

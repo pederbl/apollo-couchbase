@@ -3,7 +3,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { generateTypeDefs } from "./graphql/typeDefs";
 import { generateResolvers } from "./graphql/resolvers";
-import { verifyJwtToken } from "./graphql/lib/auth";
+import { getVerifiedPayload } from "./graphql/lib/auth";
 import { JwtPayload } from "jsonwebtoken";
 
 dotenv.config();
@@ -21,14 +21,22 @@ export async function startApolloCouchServer() {
   const { url } = await startStandaloneServer<MyContext>(server, {
     listen: { port: PORT },
     context: async ({ req }) => {
-      if (!req.headers.authorization) {
-        return {};
-      }
- 
-      // const jwtToken: string = req.headers.authorization.replace("Bearer ", "");
-      // const payload: JwtPayload = verifyJwtToken(jwtToken);
+      const context = {}; 
 
-      return { };
+      if (process.env.AUTH === "true") {
+        if (req.headers.authorization) {   
+          const jwtToken: string = req.headers.authorization.replace("Bearer ", "");
+          console.log("Token: '" + jwtToken + "'"); 
+          const payload: JwtPayload = await getVerifiedPayload(jwtToken);
+          console.log("Payload:", payload); 
+          return {
+            auth: payload
+          };
+        } else if (process.env.AUTH_REQUIRED === "true") {
+          throw new Error("No authorization header provided");
+        } 
+      }
+      return context; 
     },
   });
   

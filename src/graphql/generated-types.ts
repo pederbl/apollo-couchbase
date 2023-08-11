@@ -4,7 +4,6 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -21,47 +20,11 @@ export type ErrorResponse = {
   message: Scalars['String'];
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  status?: Maybe<Status>;
-  token?: Maybe<Scalars['String']>;
-  user?: Maybe<User>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  authLoginGoogle: LoginResponse;
-  authSignUpGoogle: LoginResponse;
-};
-
-
-export type MutationAuthLoginGoogleArgs = {
-  credential: Scalars['String'];
-};
-
-
-export type MutationAuthSignUpGoogleArgs = {
-  credential: Scalars['String'];
-};
-
 export type Status = {
   __typename?: 'Status';
   code: Scalars['Int'];
   codeName: Scalars['String'];
   message: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  content?: Maybe<UserContent>;
-  id: Scalars['ID'];
-};
-
-export type UserContent = {
-  __typename?: 'UserContent';
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -139,12 +102,8 @@ export type ResolversTypes = ResolversObject<{
   ErrorResponse: ResolverTypeWrapper<ErrorResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  LoginResponse: ResolverTypeWrapper<LoginResponse>;
-  Mutation: ResolverTypeWrapper<{}>;
   Status: ResolverTypeWrapper<Status>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<User>;
-  UserContent: ResolverTypeWrapper<UserContent>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -153,12 +112,8 @@ export type ResolversParentTypes = ResolversObject<{
   ErrorResponse: ErrorResponse;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
-  LoginResponse: LoginResponse;
-  Mutation: {};
   Status: Status;
   String: Scalars['String'];
-  User: User;
-  UserContent: UserContent;
 }>;
 
 export type ErrorResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorResponse'] = ResolversParentTypes['ErrorResponse']> = ResolversObject<{
@@ -168,18 +123,6 @@ export type ErrorResponseResolvers<ContextType = any, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type LoginResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  status?: Resolver<Maybe<ResolversTypes['Status']>, ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  authLoginGoogle?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationAuthLoginGoogleArgs, 'credential'>>;
-  authSignUpGoogle?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationAuthSignUpGoogleArgs, 'credential'>>;
-}>;
-
 export type StatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['Status'] = ResolversParentTypes['Status']> = ResolversObject<{
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   codeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -187,25 +130,8 @@ export type StatusResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  content?: Resolver<Maybe<ResolversTypes['UserContent']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type UserContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserContent'] = ResolversParentTypes['UserContent']> = ResolversObject<{
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type Resolvers<ContextType = any> = ResolversObject<{
   ErrorResponse?: ErrorResponseResolvers<ContextType>;
-  LoginResponse?: LoginResponseResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
   Status?: StatusResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
-  UserContent?: UserContentResolvers<ContextType>;
 }>;
 

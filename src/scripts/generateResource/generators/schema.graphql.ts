@@ -55,15 +55,15 @@ input ${pluralCapitalized}ListInput {
 }
 
 type Mutation {
-  ${pluralLowerCase}Create(contents: [${singularCapitalized}ContentInput]!): ${pluralCapitalized}Response
-  ${pluralLowerCase}Patch(records: [${singularCapitalized}PatchInput]!): ${pluralCapitalized}Response
-  ${pluralLowerCase}Replace(records: [${singularCapitalized}ReplaceInput]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Create(contents: [${singularCapitalized}ContentInput!]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Patch(records: [${singularCapitalized}PatchInput!]!): ${pluralCapitalized}Response
+  ${pluralLowerCase}Replace(records: [${singularCapitalized}ReplaceInput!]!): ${pluralCapitalized}Response
   ${pluralLowerCase}Delete(ids: [ID]!): ${pluralCapitalized}DeleteResponse
 }
 
 type Query {
   ${pluralLowerCase}GetByIds(ids: [ID!]!): ${pluralCapitalized}Response
-  ${pluralLowerCase}List(query: ${pluralCapitalized}ListInput): ${pluralCapitalized}ListResponse
+  ${pluralLowerCase}List(query: ${pluralCapitalized}ListInput!): ${pluralCapitalized}ListResponse
 }
 `;
 }

@@ -1,4 +1,4 @@
-import { ResourceNameForms } from '../../lib/generateResourceNameForms';
+import { ResourceNameForms } from '../../lib/generateResourceNameForms.js';
 
 export function generatePatchCode(resourceName: ResourceNameForms) {
   const { singularLowerCase, singularCapitalized, pluralCapitalized, pluralLowerCase } = resourceName;

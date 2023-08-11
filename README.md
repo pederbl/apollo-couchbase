@@ -31,6 +31,12 @@ Set the username and password of your Couchbase user.
 COUCHBASE_USER=username
 COUCHBASE_PASSWORD=password
 ```
+Choose if you'd like to activate access control and if you want to require a JWT token to be sent as an authorization header in all requests. 
+```bash
+AUTH=true
+AUTH_ALL=false
+AUTH_TOKEN_ISSUER=https://<Your Identity Provider>
+```
 
 ### Generate a resource 
 In `apollo-couchbase`, the GraphQL schema and resolvers are structured in units called `resources`. A resource will typically be similar to a REST resource, with CrUD operations, but it can really be whatever kind of group of functions that makes sense for your purposes.  
@@ -57,17 +63,17 @@ type BookContent {
     ISBN: Int
 }
 
-input CustomerContentInput {
+input BookContentInput {
   name: String!
   ISBN: Int
 }
 
-input CustomerContentPatchInput {
+input BookContentPatchInput {
   name: String
   ISBN: Int
 }
 
-input CustomersListFiltersInput {
+input BooksListFiltersInput {
   name: String
 }
 ```

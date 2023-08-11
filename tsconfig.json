@@ -1,16 +1,41 @@
+// {
+//   "compilerOptions": {
+//     "module": "ESNext",
+//     "moduleResolution": "node",
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "target": "es2017",
+//     "strict": true,
+//     "outDir": "dist",
+//     "rootDir": "src",
+//     "declaration": true
+//   },
+//   "include": ["src/**/*.ts"],
+//   "exclude": ["node_modules", "**/*.test.ts"]
+// }
+  
+
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "strict": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "declaration": true
+      "module": "commonjs", // target module system 
+      "esModuleInterop": true, // for enabling interoperability between commonjs and es modules
+      "target": "es6", // target ECMAScript version
+      "moduleResolution": "node", // module resolution strategy
+      "outDir": "dist", // output directory
+      "rootDir": "src", // source files directory
+      "strict": true, // enable all strict type-checking options
+      "noImplicitAny": true, // raise error on expressions and declarations with an implied 'any' type
+      "strictNullChecks": true, // enable strict null checks
+      "strictFunctionTypes": true, // enable strict checking of function types
+      "strictBindCallApply": true, // enable strict 'bind', 'call', and 'apply' methods
+      "strictPropertyInitialization": true, // enable strict checking of property initialization
+      "noImplicitThis": true, // raise error on 'this' expressions with an implied 'any' type
+      "alwaysStrict": true, // parse in strict mode and emit "use strict" for each source file
+      "forceConsistentCasingInFileNames": true, // disallow inconsistently-cased references to the same file.
+      "allowJs": true, // allow JavaScript files to be compiled
+      "resolveJsonModule": true, // includes modules imported with .json extension
+      "declaration": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "include": ["src/**/*.ts"], // glob patterns that specify what files to include in compilation
+  "exclude": ["node_modules", "**/*.spec.ts"] // glob patterns that specify what files to exclude from compilation
 }
-  
