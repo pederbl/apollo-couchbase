@@ -15,10 +15,11 @@ const options2 = {
   };
 
 export async function getVerifiedPayload(jwtString: string): Promise<JWTValidator.JWTPayload> {
-  const ISSUER = process.env.AUTH_TOKEN_ISSUER;
-  if (!ISSUER) {
-    throw new Error("AUTH_TOKEN_ISSUER environment variable not set");
-  }
+  const ISSUER = process.env.AUTH_TOKEN_ISSUER || "https://login.example.com:8443/oauth/v2/oauth-anonymous";
+  // if (!ISSUER) {
+  //   throw new Error("AUTH_TOKEN_ISSUER environment variable not set");
+  // }
+  const AUDIENCE = process.env.AUTH_TOKEN_AUDIENCE || "api.example.com";
 
   const jwt_sig_public_key: PublicKeySettings = {   
       format: 'issuer', 
@@ -27,7 +28,7 @@ export async function getVerifiedPayload(jwtString: string): Promise<JWTValidato
 
   const jwtValidator = new JWTValidator(
       ISSUER,
-      "www",
+      AUDIENCE,
       allowed_jwt_algorithms,
       jwt_sig_public_key,
   );
@@ -38,5 +39,3 @@ export async function getVerifiedPayload(jwtString: string): Promise<JWTValidato
 export type JwtPayload = {
   [key: string]: string | object
 }
-
-

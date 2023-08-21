@@ -36,6 +36,7 @@ Choose if you'd like to activate access control and if you want to require a JWT
 AUTH=true
 AUTH_ALL=false
 AUTH_TOKEN_ISSUER=https://<Your Identity Provider>
+AUTH_TOKEN_AUDIENCE=www
 ```
 
 ### Generate a resource 
@@ -52,32 +53,36 @@ npm run generate-resource <resourceNameInPlural>
 
 E.g
 ```bash
-npm run generate-resource books
+npm run generate-resource products
 ```
 
 #### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
 E.g.
 ```graphql
-type BookContent {
+type ProductContent {
     name: String!
-    ISBN: Int
+    price: Float
+    quantity: Int
+    tags: [String!]!
 }
 
-input BookContentInput {
-  name: String!
-  ISBN: Int
+input ProductContentInput {
+    name: String!
+    price: Float
+    quantity: Int
+    tags: [String!]!
 }
 
-input BookContentPatchInput {
+input ProductContentPatchInput {
   name: String
   ISBN: Int
 }
 
-input BooksListFiltersInput {
+input ProductsListFiltersInput {
   name: String
 }
 ```
-Notice that there is no exclamation mark in the `BookContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
+Notice that there is no exclamation mark in the `ProductContentPatchInput` input, since you probably don't want to require any field to be included when patching records. 
 
 This script with create a collection in Couchbase if it didn't already exist and a primary index on that collection. 
 
