@@ -36,7 +36,7 @@ Choose if you'd like to activate access control and if you want to require a JWT
 AUTH=true
 AUTH_ALL=false
 AUTH_TOKEN_ISSUER=https://<Your Identity Provider>
-AUTH_TOKEN_AUDIENCE=www
+AUTH_TOKEN_AUDIENCE=<Your client id>
 ```
 
 ### Generate a resource 
