@@ -1,9 +1,10 @@
 {
   "name": "apollo-couchbase",
-  "version": "0.0.32",
+  "version": "0.0.35",
   "description": "A framework for building an Apollo GraphQL API backed by Couchbase.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "generate-graphql-types": "graphql-codegen --config codegen.ts"

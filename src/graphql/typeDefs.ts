@@ -13,24 +13,18 @@ async function readTypeDefs(filePaths: string[]): Promise<string[]> {
 }
 
 export async function generateTypeDefs(customTypeDefs?: string): Promise<string> {
-  const [resourceNames, apolloCouchResourceNames] = await Promise.all([
-    fsPromises.readdir(join("src", "graphql", "resources")),
-    fsPromises.readdir(join("node_modules", "apollo-couchbase", "src", "graphql", "resources")),
+  const [resourceNames] = await Promise.all([
+    fsPromises.readdir(join("src", "graphql", "resources"))
   ]);
 
   const resourceTypeDefPaths = resourceNames.map((resourceName) =>
     join("src", "graphql", "resources", resourceName, "schema.graphql")
   );
 
-  const apolloCouchResourceTypeDefPaths = apolloCouchResourceNames.map((resourceName) =>
-    join("node_modules", "apollo-couchbase", "src", "graphql", "resources", resourceName, "schema.graphql")
-  );
-
   const apolloCouchSharedTypeDefPath = join("node_modules", "apollo-couchbase", "src", "graphql", "schema.graphql");
 
   const allTypeDefPaths = [
     ...resourceTypeDefPaths,
-    ...apolloCouchResourceTypeDefPaths,
     apolloCouchSharedTypeDefPath,
   ];
 
