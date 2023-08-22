@@ -56,7 +56,13 @@ E.g
 npm run generate-resource products
 ```
 
-#### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
+The new resource files are located at /src/graphql/resources/`<resourceNameInPlural>`. With directories for the resolvers and a schema file called schema.graphql.
+
+
+
+#### Edit the resource schema file
+Specify the properties you want to expose on the resource.
+
 E.g.
 ```graphql
 type ProductContent {
@@ -86,7 +92,7 @@ Notice that there is no exclamation mark in the `ProductContentPatchInput` input
 
 This script with create a collection in Couchbase if it didn't already exist and a primary index on that collection. 
 
-#### Edit the ./src/graphql/resources/`<resourceNameInPlural>`/schema.graphql file. Fill in the properties you want to expose on the resource.
+#### Generate the Typescript types for the new resource
 After editing a schema file you need to run the generate-graphql-types script to update the Typescript types:
 ```bash
 npm run generate-graphql-types
