@@ -47,11 +47,11 @@ async function createPrimaryIndex(collectionName: string) {
   const indexManager: CollectionQueryIndexManager = collection.queryIndexes();
   await retryAsync(
       async () => {
-          indexManager.createPrimaryIndex(); 
+          await indexManager.createPrimaryIndex(); 
+          console.log("Primary index created.");
       },
-      { delay: 100, maxTry: 20 }
+      { delay: 100, maxTry: 30 }
   );
-  console.log("Primary index created.");
 }
 
 (async () => {

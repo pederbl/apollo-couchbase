@@ -80,8 +80,10 @@ input ProductContentInput {
 }
 
 input ProductContentPatchInput {
-  name: String
-  ISBN: Int
+    name: String
+    price: Float
+    quantity: Int
+    tags: [String!]
 }
 
 input ProductsListFiltersInput {

@@ -4,7 +4,7 @@ import path from 'path';
 type ResolverType = 'Query' | 'Mutation';
 
 type Resolvers = {
-  [key in ResolverType]: {
+  [key in ResolverType]?: {
     [key: string]: Function;
   };
 };
@@ -51,10 +51,12 @@ export async function generateResolvers(): Promise<Resolvers> {
 
   const importedResolverFunctions = await Promise.all(importedResolverFunctionsTasks); 
 
-  const graphQlResolversObject = importedResolverFunctions.reduce((accumulator, { resolverType, resolverName, resolver }) => {
-    accumulator[resolverType][resolverName] = resolver;
-    return accumulator;
-  }, { Query: {}, Mutation: {} } as Resolvers);
+  const graphQlResolversObject = importedResolverFunctions.reduce((resolvers, currentResolver) => {
+    const { resolverType, resolverName, resolver } = currentResolver;
+    resolvers[resolverType] ||= {};
+    resolvers[resolverType]![resolverName] = resolver;  
+    return resolvers;
+  }, {} as Resolvers);
 
   return graphQlResolversObject;
 }
