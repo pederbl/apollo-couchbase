@@ -22,14 +22,18 @@ export async function startApolloCouchServer() {
   if (!resolvers.Query || Object.keys(resolvers.Query).length === 0) {
     // Modify typeDefs to add a dummy query
     typeDefs += `
+        """
+        In GraphQL a Query root type must be provided. 
+        So, this dummy query has been added automatically.
+        """
         type Query {
-            _dummy: String
+            dummy: String
         }
     `;
 
     // Add a dummy resolver for the _dummy query
     resolvers.Query = {
-        _dummy: () => "In GraphQL a Query root type must be provided. So this dummy has been added automatically."
+        dummy: () => "Hello! I'm a dummy."
     };
   }
 
